@@ -5,7 +5,7 @@ import json
 
 
 def build_params(query, src, dest, token):
-    params = {
+    return {
         'client': 'webapp',
         'sl': src,
         'tl': dest,
@@ -19,14 +19,13 @@ def build_params(query, src, dest, token):
         'tk': token,
         'q': query,
     }
-    return params
 
 
 def legacy_format_json(original):
     # save state
     states = []
     text = original
-    
+
     # save position for double-quoted texts
     for i, pos in enumerate(re.finditer('"', text)):
         # pos.start() is a double-quote
@@ -51,8 +50,7 @@ def legacy_format_json(original):
             # use slicing to extract those parts of the original string to be kept
             text = text[:p] + states[j][1] + text[nxt:]
 
-    converted = json.loads(text)
-    return converted
+    return json.loads(text)
 
 
 def format_json(original):
